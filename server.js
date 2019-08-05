@@ -75,7 +75,7 @@ app.get('/api?:id', (req, res) => {
 
     // console.info(JSON.stringify(req.query,null,2))
     const season = req.query.season
-    
+
     console.log(season)
     matchSeason.find({ SeasonId: season }, { _id: 0, MatchId: 1 })
         .exec((err, result) => {
@@ -155,7 +155,7 @@ app.get('/api?:id', (req, res) => {
 })
 
 app.get('/batting?:id', (req, res) => {
-    var season=req.query.season
+    var season = req.query.season
     console.log(season)
     matchSeason.find({ SeasonId: season }, { _id: 0, MatchId: 1 })
         .exec((err, result) => {
@@ -189,13 +189,13 @@ app.get('/batting?:id', (req, res) => {
                     if (err) throw err;
                     console.log("economy")
                     console.log(result)
-                    let bowler_temp = []
+                    let batsman_temp = []
                     for (let i = 0; i <= result.length - 1; i++) {
-                        bowler_temp.push(result[i]._id)
+                        batsman_temp.push(result[i]._id)
 
                     }
                     console.log("temp")
-                    console.log(bowler_temp)
+                    console.log(batsman_temp)
                     let sum = 0
                     let count = 0
 
@@ -207,7 +207,7 @@ app.get('/batting?:id', (req, res) => {
                     console.log(sum)
                     console.log(economyavg)
 
-                    player.find({ PlayerId: { $in: bowler_temp } }, { _id: 0, PlayerId: 1, PlayerName: 1 })
+                    player.find({ PlayerId: { $in: batsman_temp } }, { _id: 0, PlayerId: 1, PlayerName: 1 })
                         .exec((err, data) => {
                             if (err) throw err
                             console.log(data)
@@ -216,8 +216,8 @@ app.get('/batting?:id', (req, res) => {
                             for (let i = 0; i < result.length - 1; i++) {
                                 if (result[i].economy >= economyavg) {
                                     if (result[i]._id == data[i].PlayerId) {
-                                        var bowlerobj = { "Pname": data[i].PlayerName, "economy": result[i].economy }
-                                        finalresult.push(bowlerobj)
+                                        var batsmanobj = { "Pname": data[i].PlayerName, "economy": result[i].economy }
+                                        finalresult.push(batsmanobj)
 
                                     }
                                 }
@@ -232,7 +232,7 @@ app.get('/batting?:id', (req, res) => {
                 })
         })
 
- 
+
 })
 app.get('/', (req, res) => {
     // res.send("")
